@@ -82,17 +82,7 @@ char			*ft_strjoin(char  *s1, char  *s2)
 	i = 0;
 	if (!s1)
 	{
-		p = malloc(sizeof(char) * ft_strlen(s2));
-//		printf("buf[0]/s2=%c|\n",s2[0]);
-		while(*s2)
-		{
-			*p = *s2;	
-			p++;
-			s2++;
-		//	printf("p = %s \n",p);
-		}
-//		printf("s2 returned\n");
-		return (p);
+		return (s2);
 	}
 	if (!s2)
 		return ((char *)s1);

@@ -9,6 +9,7 @@
 int main(void)
 {
 	char *p;
+	char *p2;
 	int i;
 	char b[] = "hello world again privet ";
 
@@ -16,6 +17,10 @@ int main(void)
 //	p = malloc(sizeof(char) * 10);
 //	free(p);
 	p = malloc(sizeof(char));
+	p2 = malloc(sizeof(char));
+	printf("address of p:%p\n", p);
+	printf("address of p2:%p\n", p2);
+/*
 	while(i < ft_strlen(b))
 	{
 		*p++ = b[i];
@@ -29,5 +34,6 @@ int main(void)
 		p++;
 	}
 	printf("%d\n", ft_strlen(p));
+*/
 	return (0);
 }
