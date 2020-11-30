@@ -32,55 +32,98 @@ int			get_next_line(int fd, char **line)
 {
 	char		*buf;
 	int			byte_was_read;
-	static int	num_of_lines;
+	int			flag;
 
-	if (!fd)
+	flag = 1;
+	if (fd < -1 || !*line)
 		return (-1);
 	buf = malloc(sizeof(char) * BUFFER_SIZE);
-//	printf("addres of line in func:\t%p\n", *line);
-	if (!(*line) || num_of_lines > 0)
-		*line = malloc(sizeof(char));
-//	printf("addres of line after malloc:\t%p\n", *line);
-//	printf("addres of buf after malloc:\t%p\n", buf);
+	*line = malloc(sizeof(char) + 1);
 	ft_bzero(buf);
-	while ((byte_was_read = read(fd,buf,1) != 0))
+	ft_bzero(*line);
+	while (flag && (byte_was_read = read(fd,buf,1) != 0))
 	{	
-		buf[1] = '\0';
+		buf[byte_was_read] = '\0';
 		if (buf[0] == '\n')
 		{
-			num_of_lines++;
-			free(buf);
-			break;
+			flag = 0;
 		}
-		*line = ft_strjoin(*line, buf);
+		if (flag)
+			*line = ft_strjoin(*line, buf);
 	}
 	if (byte_was_read == 0)
 		return (0);
 	return (1);
 }
 
-int main(void)
-{
-	int fd;
-	char *line;
-	char pathname[] = "./text.txt";
 
-//	line = malloc(sizeof(char));
+int main(int argc, char *argv[])
+{
+
+	int fd;
+//	int fd2;
+	char *line;
+	int i;
+//	char pathname[] = "./text.txt";
+/*
+	if (argc > 1)
+		argc = 2;
+	fd = open(argv[1], O_RDONLY);
+	printf("1 call:%d\n", get_next_line(fd, &line));
+	printf("%s\n", line);
+	fd2 = open(argv[2], O_RDONLY);
+	printf("1 call%d\n", get_next_line(fd2, &line));
+	printf("%s\n", line);
+	printf("2 call%d\n", get_next_line(fd, &line));
+	printf("%s\n", line);
+	printf("2 call%d\n", get_next_line(fd2, &line));
+	printf("%s\n", line);
+
+//	printf("%d\n", argc);
+
+*/
+	i = 1;
+	while (argc > 1)
+	{
+		
+		fd = open(argv[i], O_RDONLY);
+		while ( get_next_line(fd, &line) > 0)
+		{
+//		printf("%d\n", get_next_line(fd, &line));
+			printf("%s\n", line);
+		}
+		argc--;
+		i++;
+	}
+	fd = 0;
+	while ( get_next_line(fd, &line) > 0)
+		{
+			printf("%s\n", line);
+		}
+	return 1;
+}
+/*
+	line = malloc(sizeof(char));
 	fd = open(pathname, O_RDONLY);
-//	line = "hello world";
-//	fd = 0;
-//	printf("%d\n", ft_strlen(line));
+	line = "hello world";
+	fd = 0;
+	printf("%d\n", ft_strlen(line));
+	printf("%d\n", get_next_line(fd, &line));
+	printf("%s\n", line);
+	printf("%d\n", get_next_line(fd, &line));
+	printf("%s\n", line);
+
 	while(get_next_line(fd,&line) > 0)
 	{
-//	get_next_line(fd,&line);
 		printf("%s\n", line);
 		ft_bzero(line);
 		free(line);
-//		printf("addres of line in main after free:\t%p\n", line);
+		printf("addres of line in main after free:\t%p\n", line);
 		line = malloc(sizeof(char));
 	}
-	return 1;
+
 }
+*/
 
 
 
