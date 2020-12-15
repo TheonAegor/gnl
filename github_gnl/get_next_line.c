@@ -33,10 +33,14 @@ int			get_next_line(int fd, char **line)
 	
 	*line = ft_strnew();	
 	buf = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
-	bytes_was_read = read(fd, buf, BUFFER_SIZE);
-	printf("%s\n", buf);
-	buf[BUFFER_SIZE] = '\0';
-	*line = ft_strdup(buf);
+	while((bytes_was_read = read(fd, buf, BUFFER_SIZE)))
+	{
+	//	printf("%s\n", buf);
+		
+		buf[BUFFER_SIZE] = '\0';
+		*line = ft_strdup(buf);
+//		printf("%s\n", *line);
+	}
 
 	return (0);
 }
