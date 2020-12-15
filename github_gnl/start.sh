@@ -1,13 +1,13 @@
 #/!/bin/bash
 
-#size=32
+#size=10
 
-src=./texts/*.txt
+src=./texts/01_text.txt
 
 if [ -n "$size" ]; then
-	gcc -Wall -Wextra -Werror -o main -D BUFFER_SIZE=$size get_next_line.c get_next_line_utils.c gnl_main.c 
+	gcc -Wall -Wextra -o main -D BUFFER_SIZE=$size get_next_line.c get_next_line_utils.c gnl_main.c 
 else
 	read size
-	gcc -Wall -Wextra -Werror -o main -D BUFFER_SIZE=$size get_next_line.c get_next_line_utils.c gnl_main.c
+	gcc -Wall -Wextra -o main -D BUFFER_SIZE=$size get_next_line.c get_next_line_utils.c gnl_main.c
 fi
 ./main $src
