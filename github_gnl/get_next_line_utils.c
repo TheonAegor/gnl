@@ -16,15 +16,18 @@ int			ft_strlen(char *s)
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	char	*p;
-	size_t	numel;
+	size_t	len;
 	
-	numel = nmemb;
-	p = malloc(nmemb * size);
-	while(nmemb--)
+	len = nmemb;
+	if(!(p = malloc(nmemb * size)))
+		return (NULL);
+	while(nmemb)
 	{
-		*p++ = '\0';
+		*p = '\0';
+		nmemb--;
+		p++;
 	}
-	return (p + numel);
+	return (p - len);
 }
 
 size_t		ft_strlcpy(char *dst, const char *src,
@@ -91,9 +94,9 @@ char			*ft_strjoin(char  *s1, char  *s2)
 	int			i;
 
 	if (!s1)
-		return (ft_strdup(s2));
+		return ((char *)s2);
 	if (!s2)
-		return (ft_strdup(s1));
+		return ((char *)s1);
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	if (!(p = ft_calloc((len_s1 + len_s2 + 1), sizeof(char))))
@@ -133,4 +136,22 @@ char * ft_substr(char *s, unsigned int start, size_t len)
 		i++;
 	}
 	p[i] = '\0';
-	return (p);}
+	return (p);
+}
+
+char		*ft_strchr(char *s, int c)
+{
+	if (*s == '\0' && c == '\0')
+		return ((char *)s);
+	if (ft_strlen(s) == 0)
+		return (NULL);
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (*s == '\0' && c == '\0')
+		return ((char *)s);
+	return (NULL);
+}
