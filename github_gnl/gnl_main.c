@@ -1,6 +1,6 @@
 #include "get_next_line.h"
 
-int main()
+int main(int argc, char *argv[])
 {
 /*
 	char str1[] = "hello world";
@@ -15,18 +15,25 @@ int main()
 
 	char *line;
 	int fd;
+	int i;
 	
-//	line = (char *)malloc(sizeof(char));
-	fd = open("texts/01_text.txt", O_RDONLY);
-	while((get_next_line(fd, &line)))
+	i = 1;
+	while (argc > 1)
 	{
-		printf("%s\n\n", line);
-		free(line);
-	}	
+//	line = (char *)malloc(sizeof(char));
+		fd = open(argv[i], O_RDONLY);
+		while((get_next_line(fd, &line)))
+		{
+			printf("%s\n\n", line);
+			free(line);
+		}	
 
-	get_next_line(fd, &line);
-	printf("%s\n", line);
-	free(line);
+		get_next_line(fd, &line);
+		printf("%s\n", line);
+		free(line);
+		argc--;
+		i++;
+	}
 
 	return (1);
 }

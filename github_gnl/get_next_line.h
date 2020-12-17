@@ -10,6 +10,14 @@
 #include <fcntl.h> 
 #include <stdio.h> 
 
+
+typedef struct	fd_list_0
+{
+	int				fd;
+	char			*reminder;
+	struct fd_list_0			*next;
+}				fd_list;
+
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 int			get_next_line(int fd, char **line);
 char		*ft_strdup(const char *s);
