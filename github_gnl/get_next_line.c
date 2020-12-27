@@ -1,55 +1,66 @@
-# include "get_next_line.h"
+#include "get_next_line.h"
 
-char	*ft_strnew(size_t size)
+int		fill_reminder(char **p_n, char **line, char **reminder)
 {
-	return((char *)malloc(sizeof(char)  * (size + 1)));
-}
+	char		*tmp;
 
-int			get_next_line(int fd, char **line)
-{
-	char *buf;
-	char *p_n;
-	char *tmp;
-	static char *reminder;
-	int bytes_was_read;
-	
-	if (BUFFER_SIZE <= 0)
-		return(-1);
-	if (reminder)
+	if (*reminder)
 	{
-		if ((p_n = ft_strchr(reminder, '\n')))
-			p_n[0] = '\0';
-		*line = ft_strdup(reminder);
-		if (p_n)
+		if ((*p_n = ft_strchr(*reminder, '\n')))
+			*p_n[0] = '\0';
+		*line = ft_strdup(*reminder);
+		if (*p_n)
 		{
-			tmp = reminder;
-			reminder = ft_strdup(++p_n);
+			tmp = *reminder;
+			*reminder = ft_strdup(++(*p_n));
 			free(tmp);
 			return (1);
 		}
 	}
 	else
-		*line = ft_strnew(1);
-	p_n = NULL;
+	{
+		if (!(*line = (char *)malloc(sizeof(char) * (1 + 1))))
+			return (-1);
+	}
+	*p_n = NULL;
+	return (0);
+}
+
+int		do_gnl(char **p_n, int fd, char **line, char **reminder)
+{
+	char		*buf;
+	int			bytes_was_read;
+	char		*tmp;
+
 	if (!(buf = ft_calloc(sizeof(char), BUFFER_SIZE + 1)))
 		return (-1);
-	while(!(p_n) && (bytes_was_read = read(fd, buf, BUFFER_SIZE)))
+	while (!(*p_n) && (bytes_was_read = read(fd, buf, BUFFER_SIZE)))
 	{
 		buf[bytes_was_read] = '\0';
-		if ((p_n = ft_strchr(buf, '\n')))
+		if ((*p_n = ft_strchr(buf, '\n')))
 		{
-			*p_n = '\0';
-			reminder = ft_strdup(++p_n);
+			**p_n = '\0';
+			*reminder = ft_strdup(++(*p_n));
 		}
 		tmp = *line;
 		*line = ft_strjoin(*line, buf);
 		free(tmp);
 	}
 	free(buf);
-	if (bytes_was_read <= 0)
-	{
-//		free(reminder);
+	return (bytes_was_read);
+}
+
+int		get_next_line(int fd, char **line)
+{
+	char		*p_n;
+	static char	*reminder;
+	int			res;
+
+	if ((res = fill_reminder(&p_n, line, &reminder)) == 1)
+		return (1);
+	if (res == -1)
+		return (-1);
+	if (do_gnl(&p_n, fd, line, &reminder) == 0)
 		return (0);
-	}
 	return (1);
 }
