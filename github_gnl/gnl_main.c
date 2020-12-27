@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
 			free(line);
 		}	
 
-		get_next_line(fd, &line);
-		printf("%s\n", line);
-		free(line);
+//		get_next_line(fd, &line);
+//		printf("%s\n", line);
+//		free(line);
 		argc--;
 		i++;
 	}
