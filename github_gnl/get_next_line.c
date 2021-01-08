@@ -1,14 +1,18 @@
 #include "get_next_line.h"
 
-int		fill_reminder(char **p_n, char **line, char **reminder)
+static int	fill_reminder(char **p_n, char **line, char **reminder)
 {
 	char		*tmp;
 
+	if (!(*line = (char *)malloc(sizeof(char) * (1))))
+		return (-1);
 	if (*reminder)
 	{
 		if ((*p_n = ft_strchr(*reminder, '\n')))
 			*p_n[0] = '\0';
+		tmp = *line;
 		*line = ft_strdup(*reminder);
+		free(tmp);
 		if (*p_n)
 		{
 			tmp = *reminder;
@@ -17,34 +21,34 @@ int		fill_reminder(char **p_n, char **line, char **reminder)
 			return (1);
 		}
 	}
-	else
-	{
-		if (!(*line = (char *)malloc(sizeof(char) * (1 + 1))))
-			return (-1);
-	}
 	*p_n = NULL;
 	return (0);
 }
 
-int		do_gnl(char **p_n, int fd, char **line, char **reminder)
+static int	do_gnl(char **p_n, int fd, char **line, char **reminder)
 {
 	char		*buf;
 	int			bytes_was_read;
 	char		*tmp;
 
-	if (!(buf = ft_calloc(sizeof(char), BUFFER_SIZE + 1)))
+	if (BUFFER_SIZE <= 0 || !(buf = ft_calloc(sizeof(char), BUFFER_SIZE + 1)))
 		return (-1);
-	while (!(*p_n) && (bytes_was_read = read(fd, buf, BUFFER_SIZE)))
+	while (!(*p_n) && (bytes_was_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[bytes_was_read] = '\0';
 		if ((*p_n = ft_strchr(buf, '\n')))
 		{
 			**p_n = '\0';
-			*reminder = ft_strdup(++(*p_n));
+			if (*reminder)
+			{
+				tmp = *reminder;
+				*reminder = ft_strdup(++(*p_n));
+				free(tmp);
+			}
+			else
+				*reminder = ft_strdup(++(*p_n));
 		}
-		tmp = *line;
 		*line = ft_strjoin(*line, buf);
-		free(tmp);
 	}
 	free(buf);
 	return (bytes_was_read);
@@ -55,12 +59,23 @@ int		get_next_line(int fd, char **line)
 	char		*p_n;
 	static char	*reminder;
 	int			res;
+	int			is_ok;
 
-	if ((res = fill_reminder(&p_n, line, &reminder)) == 1)
-		return (1);
-	if (res == -1)
+	if ((res = fill_reminder(&p_n, line, &reminder)) == -1)
+	{
+		free(reminder);
 		return (-1);
-	if (do_gnl(&p_n, fd, line, &reminder) == 0)
+	}
+	else if (res == 1)
+		return (1);
+	if ((is_ok = do_gnl(&p_n, fd, line, &reminder)) == 0)
+	{
 		return (0);
+	}
+	if (is_ok == -1)
+	{
+		free(reminder);
+		return (-1);
+	}
 	return (1);
 }

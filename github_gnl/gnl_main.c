@@ -1,39 +1,56 @@
 #include "get_next_line.h"
 
-int main(int argc, char *argv[])
+int main(void)
 {
-/*
-	char str1[] = "hello world";
-	char str2[] = " oh hi mark";
-	char *str3;
-
-	str3 = NULL;
-	printf("%s\n", ft_strjoin(str1, str2));
-	printf("%s\n", ft_strjoin("", str2));
-	printf("%s\n", ft_strjoin(str3, str2));
-*/
-
 	char *line;
 	int fd;
 	int i;
-	
-	i = 1;
-	while (argc > 1)
+/*	
+	fd = open("texts/1_newline", O_RDONLY);
+	i = 0;
+	while((get_next_line(fd, &line)))
 	{
-//	line = (char *)malloc(sizeof(char));
-		fd = open(argv[i], O_RDONLY);
-		while((get_next_line(fd, &line)))
-		{
-			printf("%s\n\n", line);
-			free(line);
-		}	
-
-//		get_next_line(fd, &line);
-//		printf("%s\n", line);
-//		free(line);
-		argc--;
+		printf("%s\n", line);
+		free(line);
 		i++;
 	}
+	if (i == -1)
+		printf("Error\n\n");
+	else if (i == 2)
+		printf("Right number of lines\n\n");
+	else
+		printf("Wrong number of lines, i = %d\n\n", i);
+
+	fd = open("texts/2_simple", O_RDONLY);
+	i = 0;
+	while((get_next_line(fd, &line)))
+	{
+		printf("%s\n", line);
+		free(line);
+		i++;
+	}
+	printf("%s\n", line);
+	free(line);
+
+	fd = open("texts/empty_lines", O_RDONLY);
+	i = 0;
+	while((get_next_line(fd, &line)))
+	{
+		printf("%s\n", line);
+		free(line);
+		i++;
+	}
+	free(line);
+*/
+	fd = open("texts/line.txt", O_RDONLY);
+	i = 0;
+	while((get_next_line(fd, &line)))
+	{
+		printf("%s\n", line);
+		free(line);
+		i++;
+	}
+	free(line);
 
 	return (1);
 }
