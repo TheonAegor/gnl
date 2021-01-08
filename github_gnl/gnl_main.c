@@ -31,7 +31,7 @@ int main(void)
 	}
 	printf("%s\n", line);
 	free(line);
-
+*/
 	fd = open("texts/empty_lines", O_RDONLY);
 	i = 0;
 	while((get_next_line(fd, &line)))
@@ -41,7 +41,7 @@ int main(void)
 		i++;
 	}
 	free(line);
-*/
+/*
 	fd = open("texts/line.txt", O_RDONLY);
 	i = 0;
 	while((get_next_line(fd, &line)))
@@ -51,6 +51,6 @@ int main(void)
 		i++;
 	}
 	free(line);
-
+*/
 	return (1);
 }

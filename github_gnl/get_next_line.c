@@ -1,25 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: taegor <taegor@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/09 01:34:50 by taegor            #+#    #+#             */
+/*   Updated: 2021/01/09 01:36:59 by taegor           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 static int	fill_reminder(char **p_n, char **line, char **reminder)
 {
 	char		*tmp;
 
-	if (!(*line = (char *)malloc(sizeof(char) * (1))))
+	if (!(*line = calloc(sizeof(char), (1))))
 		return (-1);
 	if (*reminder)
 	{
 		if ((*p_n = ft_strchr(*reminder, '\n')))
-			*p_n[0] = '\0';
-		tmp = *line;
-		*line = ft_strdup(*reminder);
-		free(tmp);
-		if (*p_n)
 		{
+			*p_n[0] = '\0';
+			tmp = *line;
+			*line = ft_strdup(*reminder);
+			free(tmp);
 			tmp = *reminder;
 			*reminder = ft_strdup(++(*p_n));
 			free(tmp);
 			return (1);
 		}
+		tmp = *line;
+		*line = ft_strdup(*reminder);
+		free(tmp);
 	}
 	*p_n = NULL;
 	return (0);
@@ -54,7 +68,7 @@ static int	do_gnl(char **p_n, int fd, char **line, char **reminder)
 	return (bytes_was_read);
 }
 
-int		get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	char		*p_n;
 	static char	*reminder;
@@ -70,6 +84,8 @@ int		get_next_line(int fd, char **line)
 		return (1);
 	if ((is_ok = do_gnl(&p_n, fd, line, &reminder)) == 0)
 	{
+		free(reminder);
+		reminder = NULL;
 		return (0);
 	}
 	if (is_ok == -1)

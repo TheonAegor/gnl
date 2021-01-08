@@ -76,7 +76,7 @@ Right number of lines
 ========= TEST 2 : Empty Lines ===========
 ==========================================
 
-|NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNnCette ligne se termine par un point.
+|Cette ligne se termine par un point.
 |La ligne suivante est vide.
 |
 |Les 2 lignes suivantes sont vides
@@ -142,7 +142,7 @@ OOOOOOOOOOOOOO
  OOOOOOOOOOOOOO
   OOOOOOOOOOOOOO
   OOOOOOOOOOOOOO
-    OOOOOOOOOOOOOO
+  OOOOOOOOOOOOOO
   OOOOOOOOOOOOOO
    OOOOOOOOOOOOOO
    OOOOOOOOOOOOOO
