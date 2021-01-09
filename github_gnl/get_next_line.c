@@ -6,17 +6,23 @@
 /*   By: taegor <taegor@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/09 01:34:50 by taegor            #+#    #+#             */
-/*   Updated: 2021/01/09 01:36:59 by taegor           ###   ########.fr       */
+/*   Updated: 2021/01/09 19:29:15 by taegor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+static void	free_and_null(char **str)
+{
+	free(*str);
+	*str = NULL;
+}
+
 static int	fill_reminder(char **p_n, char **line, char **reminder)
 {
 	char		*tmp;
 
-	if (!(*line = calloc(sizeof(char), (1))))
+	if (!(*line = ft_calloc(sizeof(char), (1))))
 		return (-1);
 	if (*reminder)
 	{
@@ -64,7 +70,7 @@ static int	do_gnl(char **p_n, int fd, char **line, char **reminder)
 		}
 		*line = ft_strjoin(*line, buf);
 	}
-	free(buf);
+	free_and_null(&buf);
 	return (bytes_was_read);
 }
 
@@ -75,22 +81,23 @@ int			get_next_line(int fd, char **line)
 	int			res;
 	int			is_ok;
 
+	if (!(line) || fd < 0)
+		return(-1);
 	if ((res = fill_reminder(&p_n, line, &reminder)) == -1)
 	{
-		free(reminder);
+		free_and_null(&reminder);
 		return (-1);
 	}
 	else if (res == 1)
 		return (1);
 	if ((is_ok = do_gnl(&p_n, fd, line, &reminder)) == 0)
 	{
-		free(reminder);
-		reminder = NULL;
+		free_and_null(&reminder);
 		return (0);
 	}
 	if (is_ok == -1)
 	{
-		free(reminder);
+		free_and_null(&reminder);
 		return (-1);
 	}
 	return (1);
