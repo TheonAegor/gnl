@@ -6,7 +6,7 @@
 /*   By: taegor <taegor@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/09 01:37:52 by taegor            #+#    #+#             */
-/*   Updated: 2021/01/09 01:37:54 by taegor           ###   ########.fr       */
+/*   Updated: 2021/01/10 13:01:03 by taegor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ int				ft_strlen(char *s)
 	int			len;
 
 	len = 0;
-	while (s[len])
-		len++;
+	if (s != 0)
+		while (s[len])
+			len++;
 	return (len);
 }
 
@@ -64,45 +65,40 @@ char			*ft_strdup(const char *s)
 	return (p);
 }
 
-char			*ft_strjoin(char *s1, char *s2)
-{
-	char		*p;
-	int			len_s1;
-	int			len_s2;
-	int			i;
-
-	if (!s1)
-		return (s2);
-	if (!s2)
-		return (s1);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	if (!(p = ft_calloc((len_s1 + len_s2 + 1), sizeof(char))))
-		return (NULL);
-	i = -1;
-	while (++i < len_s1)
-		p[i] = s1[i];
-	i = -1;
-	while (++i < len_s2)
-		p[i + len_s1] = s2[i];
-	p[len_s1 + len_s2] = '\0';
-	free(s1);
-	return (p);
+int     ft_strjoin(char **s1, char *s2)
+{                
+    char    *str; 
+    int     i; 
+    int     j; 
+          
+    i = 0;                                                             j = 0;                                                             str = malloc(sizeof(char) * (ft_strlen(*s1) + ft_strlen(s2) + 1));                                        
+    if (str == 0)   
+        return (-1);    
+    if (*s1 != 0)       
+        while (s1[0][i])      
+        {                     
+            str[i] = s1[0][i]; 
+            i++;                  
+        }                         
+    while (s2[j] && s2[j] != '\n') 
+        str[i++] = s2[j++]; 
+    str[i] = '\0'; 
+    if (*s1 != 0) 
+        free(*s1); 
+    *s1 = str; 
+    return (1);
 }
 
-char			*ft_strchr(char *s, int c)
+int				find_n(char *buf)
 {
-	if (*s == '\0' && c == '\0')
-		return ((char *)s);
-	if (ft_strlen(s) == 0)
-		return (NULL);
-	while (*s)
+	int			i;
+
+	i = 0;
+	while (buf[i])
 	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
+		if (buf[i] == '\n')
+			return (i);
+		i++;
 	}
-	if (*s == '\0' && c == '\0')
-		return ((char *)s);
-	return (NULL);
+	return (-1);
 }

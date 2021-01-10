@@ -1,6 +1,6 @@
 #/!/bin/bash
 
-size=4
+size=5
 
 if [ -n "$size" ]; then
 	gcc -o main -Wall -Wextra -Werror -D BUFFER_SIZE=$size get_next_line.c get_next_line_utils.c gnl_main.c 

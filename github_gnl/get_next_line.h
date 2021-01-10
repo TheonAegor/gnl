@@ -6,7 +6,7 @@
 /*   By: taegor <taegor@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/09 01:37:32 by taegor            #+#    #+#             */
-/*   Updated: 2021/01/09 01:37:37 by taegor           ###   ########.fr       */
+/*   Updated: 2021/01/10 01:52:05 by taegor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ typedef struct		s_list
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 int					get_next_line(int fd, char **line);
 char				*ft_strdup(const char *s);
-char				*ft_strjoin(char *s1, char *s2);
+int					ft_strjoin(char **s1, char *s2);
 int					ft_strlen(char *s);
 char				*ft_substr(char *s, unsigned int start, size_t len);
 void				*ft_calloc(size_t nmemb, size_t size);
-char				*ft_strchr(char *s, int c);
+int					find_n(char *buf);
 
 #endif

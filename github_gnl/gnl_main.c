@@ -5,7 +5,7 @@ int main(void)
 	char *line;
 	int fd;
 	int i;
-	
+/*	
 	fd = open("texts/1_newline", O_RDONLY);
 	i = 0;
 	while((get_next_line(fd, &line)))
@@ -21,7 +21,7 @@ int main(void)
 		printf("Right number of lines\n\n");
 	else
 		printf("Wrong number of lines, i = %d\n\n", i);
-
+*/
 	fd = open("texts/2_simple", O_RDONLY);
 	i = 0;
 	while((get_next_line(fd, &line)))
@@ -32,7 +32,7 @@ int main(void)
 	}
 	printf("%s\n", line);
 	free(line);
-
+/*
 	fd = open("texts/empty_lines", O_RDONLY);
 	i = 0;
 	while((get_next_line(fd, &line)))
@@ -72,6 +72,6 @@ int main(void)
 		i++;
 	}
 
-
+*/
 	return (1);
 }
